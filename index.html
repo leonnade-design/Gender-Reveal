@@ -6,45 +6,113 @@
   <title>Gender Reveal</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet" />
   <style>
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body, html { width:100%; height:100%; font-family:'Poppins', sans-serif; }
-    #game { position:relative; width:100%; height:100%; overflow:hidden; background-color:white; }
+    /* Fluid root font size: scales between 14px and 18px from 320px to 1600px */
+    html {
+      font-size: clamp(0.875rem, 0.875rem + 0.5vw, 1.125rem);
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body, html {
+      width: 100%;
+      height: 100%;
+      font-family: 'Poppins', sans-serif;
+    }
+    #game {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: white;
+    }
     #bgLayer {
-      position:absolute; top:0; left:0; width:100%; height:100%;
-      background:url('bg1.png') center/cover no-repeat;
-      transform-origin:center center;
-      animation:swing 4s ease-in-out infinite alternate;
-      z-index:0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('bg1.png') center/cover no-repeat;
+      transform-origin: center center;
+      animation: swing 4s ease-in-out infinite alternate;
+      z-index: 0;
     }
-    canvas#particles { position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:1; }
+    canvas#particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
     #startBtn {
-      position:absolute; top:12%; left:50%; transform:translateX(-50%);
-      padding:20px 40px; font-size:1.5rem; font-weight:800;
-      background:linear-gradient(45deg,#ff9fcb,#ff5c8d);
-      border:none; border-radius:40px; color:white; cursor:pointer;
-      box-shadow:0 6px 12px rgba(0,0,0,0.2); z-index:10;
-      transition:transform 0.1s;
+      position: absolute;
+      top: 12%;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: clamp(0.75rem, 2vw, 1.5rem) clamp(1.5rem, 3vw, 3rem);
+      font-size: clamp(1rem, 4vw, 1.5rem);
+      font-weight: 800;
+      background: linear-gradient(45deg, #ff9fcb, #ff5c8d);
+      border: none;
+      border-radius: 40px;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      z-index: 10;
+      transition: transform 0.1s;
     }
-    #startBtn:active { transform:translateX(-50%) scale(0.95); }
+    #startBtn:active {
+      transform: translateX(-50%) scale(0.95);
+    }
     svg#bubble {
-      position:absolute; top:8%; left:50%; transform:translateX(-50%);
-      width:60%; height:auto; display:none; opacity:0;
-      transition:opacity 0.5s; z-index:10;
+      position: absolute;
+      top: 8%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      max-width: 600px;
+      height: auto;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.5s;
+      z-index: 10;
+    }
+    #bubbleText {
+      font-size: clamp(1.25rem, 3vw, 2rem);
     }
     #msg2 {
-      position:absolute; top:24%; left:50%; transform:translateX(-50%);
-      font-size:2rem; font-weight:800; color:#444; opacity:0; z-index:10;
+      position: absolute;
+      top: 24%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: clamp(1.25rem, 4vw, 2rem);
+      font-weight: 800;
+      color: #444;
+      opacity: 0;
+      z-index: 10;
     }
-    @keyframes swing { 0%{transform:rotate(-5deg);} 100%{transform:rotate(5deg);} }
+    .count {
+      display: inline-block;
+      animation: fadeScale 0.8s ease-out;
+      font-size: clamp(3rem, 10vw, 6rem);
+    }
+    .blue { color: #007bff; }
+    svg tspan.blue { fill: #007bff; }
+    .pink { color: #ff69b4; }
+    svg tspan.pink { fill: #ff69b4; }
+    @keyframes swing {
+      0% { transform: rotate(-5deg); }
+      100% { transform: rotate(5deg); }
+    }
     @keyframes fadeScale {
-      0%{opacity:0;transform:scale(0.5);}
-      50%{opacity:1;transform:scale(1.2);}
-      100%{opacity:0;transform:scale(1);}
+      0% { opacity: 0; transform: scale(0.5); }
+      50% { opacity: 1; transform: scale(1.2); }
+      100% { opacity: 0; transform: scale(1); }
     }
-    .count { display:inline-block; animation:fadeScale 0.8s ease-out; font-size:6rem; }
-    .blue { color:#007bff; } svg tspan.blue { fill:#007bff; }
-    .pink { color:#ff69b4; } svg tspan.pink { fill:#ff69b4; }
-    audio { display:none; }
+    audio { display: none; }
   </style>
 </head>
 <body>
@@ -59,8 +127,7 @@
     <svg id="bubble" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 100">
       <path d="M10,10 h580 a10,10 0 0 1 10,10 v40 a10,10 0 0 1 -10,10 h-340 l-20,20 l-20,-20 h-200 a10,10 0 0 1 -10,-10 v-40 a10,10 0 0 1 10,-10 z"
             fill="rgba(255,255,255,0.9)" stroke="#ccc" stroke-width="2"/>
-      <text id="bubbleText" x="300" y="55" text-anchor="middle"
-            font-size="24" font-weight="800" font-family="Poppins" fill="#333"></text>
+      <text id="bubbleText" x="300" y="55" text-anchor="middle" font-weight="800" font-family="Poppins" fill="#333"></text>
     </svg>
 
     <div id="msg2"></div>
@@ -68,18 +135,12 @@
 
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
   <script>
-    // particles
     const canvas = document.getElementById('particles'), ctx = canvas.getContext('2d');
     let W, H, particles = [];
     function initParticles() {
       W = canvas.width = window.innerWidth;
       H = canvas.height = window.innerHeight;
-      particles = Array.from({ length:70 }, () => ({
-        x: Math.random() * W,
-        y: Math.random() * H,
-        r: 1 + Math.random() * 1.5,
-        speed: 0.2 + Math.random() * 0.4
-      }));
+      particles = Array.from({ length: 70 }, () => ({ x: Math.random() * W, y: Math.random() * H, r: 1 + Math.random() * 1.5, speed: 0.2 + Math.random() * 0.4 }));
     }
     function drawParticles() {
       ctx.clearRect(0, 0, W, H);
@@ -88,7 +149,7 @@
         p.y -= p.speed;
         if (p.y < -10) p.y = H + 10;
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, 2*Math.PI);
+        ctx.arc(p.x, p.y, p.r, 0, 2 * Math.PI);
         ctx.fill();
       });
       requestAnimationFrame(drawParticles);
@@ -96,7 +157,6 @@
     window.addEventListener('resize', initParticles);
     initParticles(); drawParticles();
 
-    // game logic
     const startBtn = document.getElementById('startBtn');
     const bubbleSVG = document.getElementById('bubble');
     const bubbleText = document.getElementById('bubbleText');
@@ -109,18 +169,16 @@
 
     startBtn.addEventListener('click', () => {
       bgMusic.volume = 0.1;
-      bgMusic.play().catch(()=>{});
+      bgMusic.play().catch(() => {});
       startBtn.style.display = 'none';
-      bubbleText.innerHTML = 'Will I have a ' +
-        '<tspan class="blue">Brother</tspan> or a ' +
-        '<tspan class="pink">Sister</tspan>?';
+      bubbleText.innerHTML = 'Will I have a ' + '<tspan class="blue">Brother</tspan> or a ' + '<tspan class="pink">Sister</tspan>?';
       bubbleSVG.style.display = 'block';
       bubbleSVG.style.opacity = 1;
       msg2.style.opacity = 1;
       let t = 10;
       countdown = setInterval(() => {
         if (t > 0) {
-          msg2.innerHTML = `<span class="count ${t%2===0?'blue':'pink'}">${t}!</span>`;
+          msg2.innerHTML = `<span class="count ${t % 2 === 0 ? 'blue' : 'pink'}">${t}!</span>`;
           t--;
         } else {
           clearInterval(countdown);
@@ -133,25 +191,22 @@
     game.addEventListener('click', e => {
       if (!revealReady) return;
       const origin = { x: e.clientX / window.innerWidth, y: e.clientY / window.innerHeight };
-      confetti({ particleCount:20, spread:40, origin, colors:['#000'] });
+      confetti({ particleCount: 20, spread: 40, origin, colors: ['#000'] });
       popSfx.currentTime = 0;
       popSfx.playbackRate = 1.5;
-      popSfx.play().catch(()=>{});
+      popSfx.play().catch(() => {});
       bubbleText.innerHTML = "It's a...";
       msg2.style.opacity = 0;
       revealReady = false;
       bgLayer.style.backgroundImage = "url('bg2.png')";
 
       setTimeout(() => {
-        bubbleText.setAttribute('font-size','40');
-        bubbleText.innerHTML = '<tspan class="blue" font-size="40">Brother!</tspan>';
-
-        // left/right blue confetti stream for 2 seconds
+        bubbleText.innerHTML = '<tspan class="blue" font-size="clamp(1.5rem,4vw,2rem)">Brother!</tspan>';
         const duration = 2000;
         const end = Date.now() + duration;
         (function frame() {
-          confetti({ particleCount:7, angle:60, spread:55, origin:{ x:0 }, colors:['#007bff','#005bb5'] });
-          confetti({ particleCount:7, angle:120, spread:55, origin:{ x:1 }, colors:['#007bff','#005bb5'] });
+          confetti({ particleCount: 7, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#007bff', '#005bb5'] });
+          confetti({ particleCount: 7, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#007bff', '#005bb5'] });
           if (Date.now() < end) requestAnimationFrame(frame);
         })();
       }, 3000);
